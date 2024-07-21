@@ -118,7 +118,7 @@ export const navItems: NavItem[] = [
     label: 'Dashboard'
   },
   {
-    title: 'User',
+    title: 'Manage Elections',
     href: '/dashboard/user',
     icon: 'user',
     label: 'user'

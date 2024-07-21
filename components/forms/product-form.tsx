@@ -48,11 +48,9 @@ const formSchema = z.object({
     .array(ImgSchema)
     .max(IMG_MAX_LIMIT, { message: 'You can only add up to 3 images' })
     .min(1, { message: 'At least one image must be added.' }),
-  description: z
-    .string()
-    .min(3, { message: 'Product description must be at least 3 characters' }),
-  price: z.coerce.number(),
-  category: z.string().min(1, { message: 'Please select a category' })
+  city: z.string().min(3, { message: 'City is Required' }),
+  country: z.string().min(1, { message: 'Please select a country' }),
+  price: z.coerce.number()
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
@@ -72,7 +70,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imgLoading, setImgLoading] = useState(false);
-  const title = initialData ? 'Edit product' : 'Create product ';
+  // const title = initialData ? 'Edit product' : 'Create product ';
   const description = initialData ? 'Edit a product.' : 'Add a new product';
   const toastMessage = initialData ? 'Product updated.' : 'Product created.';
   const action = initialData ? 'Save changes' : 'Create';
@@ -143,7 +141,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         loading={loading}
       /> */}
       <div className="flex items-center justify-between">
-        <Heading title={title} description={description} />
+        {/* <Heading title={title} description={description} /> */}
         {initialData && (
           <Button
             disabled={loading}
@@ -161,23 +159,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-8"
         >
-          <FormField
-            control={form.control}
-            name="imgUrl"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Images</FormLabel>
-                <FormControl>
-                  <FileUpload
-                    onChange={field.onChange}
-                    value={field.value}
-                    onRemove={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div className="gap-8 md:grid md:grid-cols-3">
             <FormField
               control={form.control}
@@ -198,14 +179,14 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="description"
+              name="city"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>City</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Product description"
+                      placeholder="City is required"
                       {...field}
                     />
                   </FormControl>
@@ -213,7 +194,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="price"
               render={({ field }) => (
@@ -225,13 +206,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
-              name="category"
+              name="country"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <FormLabel>Country</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -242,7 +223,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a category"
+                          placeholder="Select a country"
                         />
                       </SelectTrigger>
                     </FormControl>

@@ -1,4 +1,5 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
+import { ProductForm } from '@/components/forms/product-form';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Heading } from '@/components/ui/heading';
@@ -18,6 +19,14 @@ const page = () => {
             description="Cast Vote for Country Future"
           />
         </div>
+        <ProductForm
+          categories={[
+            { _id: 'shirts', name: 'shirts' },
+            { _id: 'pants', name: 'pants' }
+          ]}
+          initialData={null}
+          key={null}
+        />
         <Card className="w-[30] max-w-sm">
           <CardContent>
             <>
