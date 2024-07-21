@@ -28,12 +28,14 @@ import {
   User,
   User2Icon,
   UserX2Icon,
-  X
+  X,
+  Vote
 } from 'lucide-react';
 
 export type Icon = LucideIcon;
 
 export const Icons = {
+  Cast: Vote,
   dashboard: LayoutDashboardIcon,
   logo: Command,
   login: LogIn,

@@ -1,13 +1,8 @@
 import { NextAuthConfig } from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
-import GithubProvider from 'next-auth/providers/github';
 
 const authConfig = {
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID ?? '',
-      clientSecret: process.env.GITHUB_SECRET ?? ''
-    }),
     CredentialProvider({
       credentials: {
         email: {
@@ -18,11 +13,13 @@ const authConfig = {
         }
       },
       async authorize(credentials, req) {
+        console.log(' credentials:', credentials);
         const user = {
           id: '1',
           name: 'John',
           email: credentials?.email as string
         };
+        console.log('user', user);
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
           return user;

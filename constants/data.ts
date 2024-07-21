@@ -135,11 +135,17 @@ export const navItems: NavItem[] = [
     icon: 'profile',
     label: 'profile'
   },
+  // {
+  //   title: 'Kanban',
+  //   href: '/dashboard/kanban',
+  //   icon: 'kanban',
+  //   label: 'kanban'
+  // },
   {
-    title: 'Kanban',
-    href: '/dashboard/kanban',
-    icon: 'kanban',
-    label: 'kanban'
+    title: 'Cast Vote ',
+    href: '/dashboard/CastVoting',
+    icon: 'Cast',
+    label: 'Cast'
   },
   {
     title: 'Login',

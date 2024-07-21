@@ -72,7 +72,7 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    defaultValues,
+    // defaultValues,
     mode: 'onChange'
   });
 
@@ -81,10 +81,10 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
     formState: { errors }
   } = form;
 
-  const { append, remove, fields } = useFieldArray({
-    control,
-    name: 'jobs'
-  });
+  // const { append, remove, fields } = useFieldArray({
+  //   control
+  //   name: ''
+  // });
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
@@ -117,7 +117,7 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
   };
 
   const processForm: SubmitHandler<ProfileFormValues> = (data) => {
-    console.log('data ==>', data);
+    console.log('cc', data);
     setData(data);
     // api call and reset
     // form.reset();
@@ -129,25 +129,33 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
     {
       id: 'Step 1',
       name: 'Personal Information',
-      fields: ['firstname', 'lastname', 'email', 'contactno', 'country', 'city']
-    },
-    {
-      id: 'Step 2',
-      name: 'Professional Informations',
-      // fields are mapping and flattening for the error to be trigger  for the dynamic fields
-      fields: fields
-        ?.map((_, index) => [
-          `jobs.${index}.jobtitle`,
-          `jobs.${index}.employer`,
-          `jobs.${index}.startdate`,
-          `jobs.${index}.enddate`,
-          `jobs.${index}.jobcountry`,
-          `jobs.${index}.jobcity`
-          // Add other field names as needed
-        ])
-        .flat()
-    },
-    { id: 'Step 3', name: 'Complete' }
+      fields: [
+        'firstname',
+        'lastname',
+        'email',
+        'contactno',
+        'ageno',
+        'country',
+        'city'
+      ]
+    }
+    // {
+    //   id: 'Step 2',
+    //   name: 'Professional Informations',
+    //   // fields are mapping and flattening for the error to be trigger  for the dynamic fields
+    //   fields: fields
+    //     ?.map((_, index) => [
+    //       `jobs.${index}.jobtitle`,
+    //       `jobs.${index}.employer`,
+    //       `jobs.${index}.startdate`,
+    //       `jobs.${index}.enddate`,
+    //       `jobs.${index}.jobcountry`,
+    //       `jobs.${index}.jobcity`
+    //       // Add other field names as needed
+    //     ])
+    //     .flat()
+    // },
+    // { id: 'Step 3', name: 'Complete' }
   ];
 
   const next = async () => {
@@ -159,21 +167,15 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
 
     if (!output) return;
 
-    if (currentStep < steps.length - 1) {
-      if (currentStep === steps.length - 2) {
-        await form.handleSubmit(processForm)();
-      }
-      setPreviousStep(currentStep);
-      setCurrentStep((step) => step + 1);
-    }
+    await form.handleSubmit(processForm)();
   };
 
-  const prev = () => {
-    if (currentStep > 0) {
-      setPreviousStep(currentStep);
-      setCurrentStep((step) => step - 1);
-    }
-  };
+  // const prev = () => {
+  //   if (currentStep > 0) {
+  //     setPreviousStep(currentStep);
+  //     setCurrentStep((step) => step - 1);
+  //   }
+  // };
 
   const countries = [{ id: 'wow', name: 'india' }];
   const cities = [{ id: '2', name: 'kerala' }];
@@ -313,6 +315,24 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
                 />
                 <FormField
                   control={form.control}
+                  name="ageno"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Age</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Enter you age"
+                          disabled={loading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="country"
                   render={({ field }) => (
                     <FormItem>
@@ -379,7 +399,7 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
                 />
               </>
             )}
-            {currentStep === 1 && (
+            {/* {currentStep === 1 && (
               <>
                 {fields?.map((field, index) => (
                   <Accordion
@@ -582,65 +602,25 @@ export const CreateProfileOne: React.FC<ProfileFormType> = ({
             {currentStep === 2 && (
               <div>
                 <h1>Completed</h1>
-                <pre className="whitespace-pre-wrap">
-                  {JSON.stringify(data)}
-                </pre>
+                <pre className="whitespace-pre-wrap"></pre>
               </div>
-            )}
+            )} */}
           </div>
-
+          {JSON.stringify(data)}
           {/* <Button disabled={loading} className="ml-auto" type="submit">
             {action}
           </Button> */}
         </form>
       </Form>
       {/* Navigation */}
-      <div className="mt-8 pt-5">
-        <div className="flex justify-between">
-          <button
-            type="button"
-            onClick={prev}
-            disabled={currentStep === 0}
-            className="rounded bg-white px-2 py-1 text-sm font-semibold text-sky-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-50 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="h-6 w-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 19.5L8.25 12l7.5-7.5"
-              />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={next}
-            disabled={currentStep === steps.length - 1}
-            className="rounded bg-white px-2 py-1 text-sm font-semibold text-sky-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-50 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="h-6 w-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.25 4.5l7.5 7.5-7.5 7.5"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+      <button
+        type="button"
+        onClick={next}
+        // disabled={currentStep === steps.length - 1}
+        className="rounded bg-white px-2 py-1 text-sm font-semibold text-sky-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-50 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Submit
+      </button>
     </>
   );
 };
