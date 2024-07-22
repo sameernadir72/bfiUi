@@ -143,7 +143,7 @@ export const navItems: NavItem[] = [
   // },
   {
     title: 'Cast Vote ',
-    href: '/dashboard/CastVoting',
+    href: '/dashboard/castVoting',
     icon: 'Cast',
     label: 'Cast'
   },

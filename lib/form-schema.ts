@@ -10,6 +10,8 @@ export const profileSchema = z.object({
   email: z
     .string()
     .email({ message: 'Product Name must be at least 3 characters' }),
+  country: z.string().min(1, { message: 'Country is Required' }),
+  city: z.string().min(1, { message: 'City is Required' }),
   contactno: z.coerce.number(),
   ageno: z.coerce.number()
 });
