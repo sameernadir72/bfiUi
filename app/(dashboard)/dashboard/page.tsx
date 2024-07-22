@@ -28,7 +28,7 @@ export default function page() {
             <Button>Download</Button>
           </div>
         </div>
-        <Tabs defaultValue="overview" className="space-y-4">
+        {/* <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics" disabled>
@@ -162,7 +162,7 @@ export default function page() {
               </div>
             </div>
           </TabsContent>
-        </Tabs>
+        </Tabs> */}
       </div>
     </ScrollArea>
   );

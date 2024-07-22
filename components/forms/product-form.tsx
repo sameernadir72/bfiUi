@@ -21,37 +21,32 @@ import { Heading } from '@/components/ui/heading';
 import {
   Select,
   SelectContent,
-  SelectItem,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-// import FileUpload from "@/components/FileUpload";
 import { useToast } from '../ui/use-toast';
-import FileUpload from '../file-upload';
-const ImgSchema = z.object({
-  fileName: z.string(),
-  name: z.string(),
-  fileSize: z.number(),
-  size: z.number(),
-  fileKey: z.string(),
-  key: z.string(),
-  fileUrl: z.string(),
-  url: z.string()
-});
+
 export const IMG_MAX_LIMIT = 3;
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: 'Product Name must be at least 3 characters' }),
-  imgUrl: z
-    .array(ImgSchema)
-    .max(IMG_MAX_LIMIT, { message: 'You can only add up to 3 images' })
-    .min(1, { message: 'At least one image must be added.' }),
-  city: z.string().min(3, { message: 'City is Required' }),
-  country: z.string().min(1, { message: 'Please select a country' }),
-  price: z.coerce.number()
-});
+const formSchema = z
+  .object({
+    name: z
+      .string()
+      .min(3, { message: 'Product Name must be at least 3 characters' }),
+    city: z.string().min(1, { message: 'City is Required' }),
+    area: z.string().min(1, { message: 'Please select a area' }),
+    startDate: z.date({
+      required_error: 'Please select a date and time',
+      invalid_type_error: "That's not a date!"
+    }),
+    endDate: z.date({
+      required_error: 'Please select an end date and time',
+      invalid_type_error: "That's not a valid date!"
+    })
+  })
+  .refine((data) => data.endDate > data.startDate, {
+    message: 'End date must be later than start date',
+    path: ['endDate'] // This marks the error at the endDate field
+  });
 
 type ProductFormValues = z.infer<typeof formSchema>;
 
@@ -130,16 +125,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     }
   };
 
-  const triggerImgUrlValidation = () => form.trigger('imgUrl');
-
   return (
     <>
-      {/* <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      /> */}
       <div className="flex items-center justify-between">
         {/* <Heading title={title} description={description} /> */}
         {initialData && (
@@ -183,36 +170,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>City</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="City is required"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input type="number" disabled={loading} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-            <FormField
-              control={form.control}
-              name="country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Country</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -223,17 +180,94 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a country"
+                          placeholder="Select a city"
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {/* @ts-ignore  */}
-                      {categories.map((category) => (
+                      {/* {categories.map((category) => (
                         <SelectItem key={category._id} value={category._id}>
                           {category.name}
                         </SelectItem>
-                      ))}
+                      ))} */}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="startDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Start Date</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      {...field}
+                      value={
+                        field.value instanceof Date
+                          ? field.value.toISOString().split('T')[0]
+                          : field.value
+                      }
+                      // value={formatDate(field.value)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="endDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>End Date</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      {...field}
+                      value={
+                        field.value instanceof Date
+                          ? field.value.toISOString().split('T')[0]
+                          : field.value
+                      }
+                      // value={formatDate(field.value)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="area"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Area</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Select a area"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {/* @ts-ignore  */}
+                      {/* {categories.map((category) => (
+                        <SelectItem key={category._id} value={category._id}>
+                          {category.name}
+                        </SelectItem>
+                      ))} */}
                     </SelectContent>
                   </Select>
                   <FormMessage />
