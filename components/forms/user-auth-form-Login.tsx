@@ -37,10 +37,17 @@ export default function UserAuthLoginForm() {
 
   const onSubmit = async (data: UserFormValue) => {
     console.log(' onSubmit ~ data:', data);
-    signIn('credentials', {
-      email: data.email,
-      callbackUrl: callbackUrl ?? '/dashboard'
-    });
+    async function signInWithEmailAndPassword(email: string, password: string) {
+      try {
+        const userCredential = await firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        // Handle successful sign-in
+      } catch (error) {
+        // Handle sign-in error
+      }
+    }
   };
 
   return (
