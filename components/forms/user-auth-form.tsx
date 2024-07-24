@@ -15,11 +15,12 @@ import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import GoogleSignInButton from '../github-auth-button';
 import Link from 'next/link';
 
 const formSchema = z.object({
-  email: z.string().email({ message: 'Enter a valid email address' })
+  email: z.string().email({ message: 'Enter a valid email address' }),
+  password: z.string().min(1, { message: 'Password is required' }),
+  name: z.string().min(1, { message: 'Name is required' })
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -29,19 +30,17 @@ export default function UserAuthForm() {
   const callbackUrl = searchParams.get('callbackUrl');
   console.log('callbackUrl:', callbackUrl);
   const [loading, setLoading] = useState(false);
-  const defaultValues = {
-    email: 'demo@gmail.com'
-  };
+
   const form = useForm<UserFormValue>({
-    resolver: zodResolver(formSchema),
-    defaultValues
+    resolver: zodResolver(formSchema)
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    console.log(' onSubmit ~ data:', data);
     signIn('credentials', {
       email: data.email,
-      callbackUrl: callbackUrl ?? '/dashboard'
+      password: data.password,
+      name: data.password
+      // callbackUrl: '/'
     });
   };
 
