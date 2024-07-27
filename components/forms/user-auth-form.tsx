@@ -107,7 +107,7 @@ export default function UserAuthForm() {
           />
 
           <Button disabled={loading} className="ml-auto w-full" type="submit">
-            Continue With Email
+            Sign Up
           </Button>
         </form>
       </Form>
@@ -117,7 +117,9 @@ export default function UserAuthForm() {
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            <Link href="/login">Already signin go to login</Link>
+            <a href="/login" className="text-blue-600/100">
+              Already signin go to login
+            </a>
           </span>
         </div>
       </div>
