@@ -39,8 +39,8 @@ export default function UserAuthForm() {
     signIn('credentials', {
       email: data.email,
       password: data.password,
-      name: data.password
-      // callbackUrl: '/'
+      name: data.name,
+      callbackUrl: '/dashboard'
     });
   };
 

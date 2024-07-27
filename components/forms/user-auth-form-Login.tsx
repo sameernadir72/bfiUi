@@ -17,7 +17,8 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 const formSchema = z.object({
-  email: z.string().email({ message: 'Enter a valid email address' })
+  email: z.string().email({ message: 'Enter a valid email address' }),
+  password: z.string().min(1, { message: 'Password is required' })
 });
 
 type UserFormValue = z.infer<typeof formSchema>;
@@ -31,23 +32,15 @@ export default function UserAuthLoginForm() {
     email: 'demo@gmail.com'
   };
   const form = useForm<UserFormValue>({
-    resolver: zodResolver(formSchema),
-    defaultValues
+    resolver: zodResolver(formSchema)
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    console.log(' onSubmit ~ data:', data);
-    async function signInWithEmailAndPassword(email: string, password: string) {
-      try {
-        const userCredential = await firebase
-          .auth()
-          .signInWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-        // Handle successful sign-in
-      } catch (error) {
-        // Handle sign-in error
-      }
-    }
+    signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      callbackUrl: '/dashboard'
+    });
   };
 
   return (
