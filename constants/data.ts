@@ -34,7 +34,14 @@ export type Employee = {
   job: string;
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
-
+export const users: Candidate[] = [
+  {
+    id: 1,
+    name: 'Michael Lee',
+    partyName: '',
+    votes: 1
+  }
+];
 export const navItems: NavItem[] = [
   {
     title: 'Dashboard',

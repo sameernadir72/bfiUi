@@ -296,25 +296,6 @@ export const ElectionForm: React.FC<ElectionFormProps> = ({ initialData }) => {
                     </FormItem>
                   )}
                 />
-                {/* <Controller
-                  control={control}
-                  name={`candidates.${index}.partySymbol`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Party Symbol</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="Party symbol"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage>
-                        {errors.candidates?.[index]?.partySymbol?.message}
-                      </FormMessage>
-                    </FormItem>
-                  )}
-                /> */}
                 <Button
                   disabled={loading}
                   variant="destructive"

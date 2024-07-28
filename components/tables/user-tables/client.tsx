@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { columns } from './columns';
 
 interface ElectionsClientProps {
-  data: Election[];
+  data: Candidate[];
 }
 
 export const UserClient: React.FC<ElectionsClientProps> = ({ data }) => {
