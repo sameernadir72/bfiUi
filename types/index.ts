@@ -10,11 +10,21 @@ export interface NavItem {
   description?: string;
 }
 
-export type ElectionContract = {
-  candidateIds: number[];
-  startTime: number;
-  endTime: number;
-};
+// export type Election = {
+//   id: number;
+//   name: string;
+//   city: string;
+//   candidates: Candidate[];
+//   startTime: number;
+//   endTime: number;
+// };
+
+// export type Candidate = {
+//   id: number;
+//   name: string;
+//   partyName: string;
+//   votes: number;
+// };
 
 export interface NavItemWithChildren extends NavItem {
   items: NavItemWithChildren[];

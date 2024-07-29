@@ -1,23 +1,10 @@
-import { Breadcrumbs } from '@/components/breadcrumbs';
-import { ElectionResult } from '@/components/ElectionResult';
-import { Heading } from '@/components/ui/heading';
-import { Separator } from '@/components/ui/separator';
-import { Candidate, Election } from '@/constants/data';
-import { abi, contract_address } from '@/lib/contract';
+import React from 'react';
+import Vote from '../../../../components/vote';
 import { ethers } from 'ethers';
+import { abi, contract_address } from '@/lib/contract';
+import { Candidate, Election } from '@/constants/data';
 
-const breadcrumbItems = [
-  { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Result', link: '/dashboard/result' }
-];
-
-type paramsProps = {
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
-};
-
-export default async function page({ searchParams }: paramsProps) {
+const page = async () => {
   const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
   const contract = new ethers.Contract(contract_address, abi, provider);
   const totalElectionsCreated = Number(await contract.totalElections());
@@ -50,17 +37,12 @@ export default async function page({ searchParams }: paramsProps) {
     )
   );
   console.log(elections);
-  return (
-    <>
-      <div className="flex-1 space-y-4  p-4 pt-6 md:p-8">
-        <Breadcrumbs items={breadcrumbItems} />
 
-        <div className="flex items-start justify-between">
-          <Heading title={`Elections Result`} description="" />
-        </div>
-        <Separator />
-        <ElectionResult results={elections} />
-      </div>
-    </>
+  return (
+    <div>
+      <Vote elections={elections} />
+    </div>
   );
-}
+};
+
+export default page;
