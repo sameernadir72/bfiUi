@@ -24,10 +24,6 @@ async function createUser(user: User) {
     const db = getFirestore(app);
     // Successful Login
     const { user: firebaseUser } = userCredential;
-    // if (user) {
-    //   redirect('/dashboard');
-    //   // Return relevant user data (replace with your desired user object)
-    // }
     return {
       id: firebaseUser.uid, // Assuming Firebase uses uid for user identification
       email: firebaseUser.email
@@ -48,11 +44,6 @@ async function loginUser(user: User) {
     const db = getFirestore(app);
     // Successful Login
     const { user: firebaseUser } = userCredential;
-    if (user) {
-      // const router = useRouter();
-      // router.push('/');
-      // Return relevant user data (replace with your desired user object)
-    }
     return {
       id: firebaseUser.uid, // Assuming Firebase uses uid for user identification
       email: firebaseUser.email
@@ -84,11 +75,13 @@ const authConfig = {
         };
         try {
           if (!credentials.name) {
+            console.log('login');
             const userCredential = await loginUser(user);
             // Successful Login
             // Return relevant user data (replace with your desired user object)
             return userCredential;
           } else {
+            console.log('sign up');
             const userCredential = await createUser(user);
             // Successful Login
             // Return relevant user data (replace with your desired user object)
